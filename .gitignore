@@ -1,0 +1,5 @@
+/.vscode/
+/react/node_modules/
+/django/env/
+/*/.venv
+.idea
