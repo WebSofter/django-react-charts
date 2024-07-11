@@ -75,6 +75,7 @@ services:
   # Сервис нашей БД
   db:
     image: mariadb
+    restart: always
     container_name: app_db
     profiles: [prod, dev]
     environment:
@@ -84,8 +85,9 @@ services:
       MYSQL_PASSWORD: ${DB_PASSWORD}
     volumes:
       - db_volume:/var/lib/mysql
+    hostname: localhost
     ports:
-      - "3306:3306"
+      - ${DB_PORT}:3306
     # Сеть
     networks:
       - app-network
@@ -100,8 +102,7 @@ services:
     ports:
       - "8090:80"
     environment:
-      - PMA_HOST=${DB_HOST}
-      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+      - PMA_HOST=db
     networks:
       - app-network
 
@@ -129,4 +130,3 @@ volumes:
 # создаём сеть.
 networks:
   app-network:
-    driver: bridge

@@ -11,7 +11,7 @@ const InputField = ({ label, value = 0.00, placeholder, icon, onClick }) => {
             <i className={`pi ${icon}`}></i>
         </span>}
         <InputNumber onClick={onClick} placeholder={ placeholder ?? label} value={value} />
-        <span className="p-inputgroup-addon">.00</span>
+        {/* <span className="p-inputgroup-addon">.00</span> */}
     </div>
   );
 };
