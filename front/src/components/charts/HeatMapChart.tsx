@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import * as echarts from "echarts";
 import type { EChartOption } from "echarts";
+import './styles.css'
 
 const HeatMapChart = () => {
     var app: any = {};
@@ -210,7 +211,7 @@ const HeatMapChart = () => {
         chart.setOption(option);
     }
 
-    return (<div style={{ width: '550px', height: '550px' }} className="chartRef" ref={chartRef}></div>);
+    return (<div style={{ width: '550px', height: '550px' }} className="chartRef chart-heatmap" ref={chartRef}></div>);
 }
 
 export default HeatMapChart;

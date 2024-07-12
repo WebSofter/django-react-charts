@@ -9,13 +9,14 @@ import { PrimeReactProvider } from 'primereact/api';
 
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
-import Tailwind from 'primereact/passthrough/tailwind';
+//import Tailwind from 'primereact/passthrough/tailwind';
 import { twMerge } from 'tailwind-merge';
+import 'primereact/resources/themes/lara-light-teal/theme.css'
 
 function App() {
   const data: any = [];
   return (
-    <PrimeReactProvider value={{ unstyled: false, pt: Tailwind }}>
+    <PrimeReactProvider value={{ unstyled: false, }}>
       <BrowserRouter>
         <Navbar />
         <Routes>
