@@ -1,7 +1,7 @@
 import React from "react";
-import { InputNumber } from 'primereact/inputnumber';
+import { InputText } from 'primereact/inputtext';
 
-const InputField = ({ label, value = 0.00, placeholder, icon, onClick }) => {
+const InputField = ({ label, icon, ...props }) => {
   return (
     <div className="p-inputgroup w-full md:w-30rem">
         {label && <span className="p-inputgroup-addon">
@@ -10,7 +10,8 @@ const InputField = ({ label, value = 0.00, placeholder, icon, onClick }) => {
         {icon && <span className="p-inputgroup-addon">
             <i className={`pi ${icon}`}></i>
         </span>}
-        <InputNumber onClick={onClick} placeholder={ placeholder ?? label} value={value} />
+        <InputText {...props}/>
+        {/* <InputText onClick={onClick} placeholder={ placeholder ?? label} value={value} onInput={onInput} onChange={onChange} name={name} /> */}
         {/* <span className="p-inputgroup-addon">.00</span> */}
     </div>
   );
