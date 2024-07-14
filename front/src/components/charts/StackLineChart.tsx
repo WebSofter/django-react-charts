@@ -1,6 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
 import './styles.css'
-import { fetchChart } from "../../utils/fetch"
 // import chartData from './data.json'
 import {
     LineChart,
@@ -49,18 +48,7 @@ const charts = [
     }
 ]
 
-export default function StackLineChart({ num = 1, filter = 1.0, limit = 50, interval = 10000 }) {
-    const [isLoaded, setIsLoaded] = useState(false);
-    const [chartData, setChartData] = useState([]);
-    
-    useEffect(() => {
-        //setInterval(function(){
-            fetchChart({num, filter, limit, success: resp => {
-                setChartData(resp)
-                setIsLoaded(true);
-            }, fail: e => setIsLoaded(true)})
-        //}, interval)
-    }, [filter])
+export default function StackLineChart({ data = []}) {
     return (
         <div className="flex flex-col">
             {charts.map((chart, i) =><div className={`flex flex-row chart-item ${(i === charts.length - 1) ? 'last-chart': ''}`}>
@@ -74,7 +62,7 @@ export default function StackLineChart({ num = 1, filter = 1.0, limit = 50, inte
                         key={`chart-${i}`}
                         width={1500}
                         height={100}
-                        data={chartData}
+                        data={data}
                         syncId="anyId"
                         margin={{
                             top: 0,

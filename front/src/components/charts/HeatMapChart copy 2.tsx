@@ -3,7 +3,6 @@ import * as echarts from "echarts";
 import type { EChartOption } from "echarts";
 import './styles.css'
 import { IChartComponentProps } from "../../type/chart";
-
 /*
 [{
     "timestamps": "2024-05-07T10:13:29.930000Z",

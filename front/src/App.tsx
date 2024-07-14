@@ -11,7 +11,7 @@ import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 //import Tailwind from 'primereact/passthrough/tailwind';
 import { twMerge } from 'tailwind-merge';
-import 'primereact/resources/themes/lara-light-teal/theme.css'
+import 'primereact/resources/themes/bootstrap4-light-purple/theme.css'
 
 function App() {
   const data: any = [];

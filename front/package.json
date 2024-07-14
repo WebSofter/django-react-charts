@@ -17,6 +17,7 @@
     "axios": "^1.7.2",
     "chart.js": "^4.4.3",
     "echarts": "^5.5.1",
+    "heatmap.js": "^2.0.5",
     "lodash": "^4.17.21",
     "postcss": "^8.4.39",
     "primeflex": "^3.3.1",
