@@ -1,9 +1,27 @@
 import React, { useEffect, useRef } from "react";
 import * as echarts from "echarts";
 import type { EChartOption } from "echarts";
-import './styles.css'
+import { IChartComponentProps } from "../../type/chart";
+// import './styles.css'
 
-const HeatMapChart = () => {
+const HeatMapChart = ({ data, }: IChartComponentProps) => {
+    /*
+      {
+        timestamps: "2024-05-07T10:13:30.611000Z",
+        data_1ch: 312.75,
+        data_2ch: 17803.4,
+        data_3ch: 12477.4,
+        data_4ch: 34583.9,
+        data_5ch: 8667.02,
+        data_6ch: 13750.3,
+        data_7ch: 21927.9,
+        data_8ch: 10742.8,
+      }
+    */
+    const range = (from: number, to: number, step: number) => [...Array(Math.floor((to - from) / step) + 1)].map((_, i) => from + i * step);
+    // const hours = range(-200, 36000, 500);
+    const chartData = data.slice(0, 49);
+    
     var app: any = {};
     type EChartsOption = echarts.EChartsOption;
     const chartRef = useRef<HTMLDivElement>(null);
@@ -13,7 +31,6 @@ const HeatMapChart = () => {
         initChart(chartRef.current);
       }
     }, []);
-
     function initChart(dom: HTMLDivElement) {
         let chart = echarts.init(dom);
 
@@ -21,8 +38,13 @@ const HeatMapChart = () => {
         var option: echarts.EChartOption;
 
         let noise = getNoiseHelper();
+
+        // let xData: number[] = [];
+        // let yData: number[] = [];
+
         let xData: number[] = [];
         let yData: number[] = [];
+
         noise.seed(Math.random());
         function generateData(theta: number, min: number, max: number) {
           let data: number[][] = [];
@@ -38,7 +60,7 @@ const HeatMapChart = () => {
           return data;
         }
         let data = generateData(2, -5, 5);
-        
+        console.log({data: data.slice(230, 290), xData, yData})
         option = {
           tooltip: {},
           xAxis: {

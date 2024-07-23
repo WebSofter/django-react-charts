@@ -8,22 +8,30 @@ from rest_framework import status
 from .serializers import *
 from django.db import transaction
 from django.http import HttpResponse
+from django.db.models import Q
 import csv
+
+NTH_ROWS = 10
+
+def get_every_nth_element(lst, n):
+    return lst[n-1::n]
 
 # Create your views here.
 def get_filtered_chart(serializer, filter):
     filter = float(filter)
+    lst = get_every_nth_element(serializer.data, NTH_ROWS)
+
     if filter >=1.0:
-        return serializer.data
+        return lst
     else:
         rows = []
-        for item in serializer.data:
+        for item in lst:
             cols = {}
             for name, value in item.items():
                 if(name in 'timestamps'):
                     cols[name] = value
                 else:
-                    cols[name] = round((value * filter),2)
+                    cols[name] = round((value * filter), 2)
             rows.append(cols)
         return rows
 
@@ -31,14 +39,16 @@ def get_filtered_chart(serializer, filter):
 def list_charts(request, page):
     if request.method == 'GET':
         filter = request.GET.get("filter")
-        limit = int(request.GET.get("limit"))  
+        limit = int(request.GET.get("limit")) * NTH_ROWS
         if int(page) == 1:
             data = SignalsTop.objects.all()[:limit]
+            # data = SignalsTop.objects.filter(Q(timestamps__lte='1'))
             serializer = SignalsTopSerializer(data, context={'request': request}, many=True)
             result = get_filtered_chart(serializer, filter)
             return Response(result)
         elif int(page) == 2:
             data = SignalsBottom.objects.all()[:limit]
+            #data = SignalsBottom.objects.filter(Q(timestamps__lte='1'))
             serializer = SignalsBottomSerializer(data, context={'request': request}, many=True)
             result = get_filtered_chart(serializer, filter)
             return Response(result)

@@ -6,8 +6,9 @@ import StackLineChart from "../components/charts/StackLineChart";
 import { downloadOnPage } from "../utils/fetch"
 import { Toast } from 'primereact/toast';
 import { fetchChart } from "../utils/fetch"
-import HeatMapChart from "../components/charts/HeatMapChart";
-import HeatMapJS from "../components/charts/HeatMapJS";
+import HeatMapChart from "../components/charts/HeatMapChart1";
+// import HeatMapChart from "../components/charts/HeatMapChart";
+// import HeatMapJS from "../components/charts/HeatMapJS";
 
 const PageTop = ({ data }) => {
   const toast = useRef(null);
@@ -52,7 +53,8 @@ const PageTop = ({ data }) => {
             <SplitterPanel className="flex align-items-center justify-content-center p-8">
               <GraphicLayout>
                 <HeatMapChart data={chartData}/>
-                <HeatMapJS/>
+                {/* <HeatMapJS/>  */}
+                {/* <HeatMapChart data={chartData}/> */}
               </GraphicLayout>
             </SplitterPanel>
         </Splitter>

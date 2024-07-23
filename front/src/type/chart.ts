@@ -11,8 +11,15 @@ export interface IChartData {
 }
 
 export interface IChartComponentProps {
-    data: IChartData;
+    data: IChartData[];
     num: number;
     filter: number;
     limit: number;
 }
+
+export interface IGradientChartData {
+    label: string; 
+    name: string; 
+    center: boolean; 
+    data: number[]; //Array<IChartData>
+  }

@@ -3,6 +3,7 @@ import PageLayout from "../components/common/PageLayout";
 import { Splitter, SplitterPanel } from 'primereact/splitter';
 import GraphicLayout from "../components/common/GraphicLayout";
 import HeatMapChart from "../components/charts/HeatMapChart1";
+import GradientMapChart from "../components/charts/GradientMapChart";
 import StackLineChart from "../components/charts/StackLineChart";
 import { downloadOnPage } from "../utils/fetch"
 import { Toast } from 'primereact/toast';
@@ -50,7 +51,8 @@ const PageTop = ({ data }) => {
             </SplitterPanel>
             <SplitterPanel className="flex align-items-center justify-content-center p-8">
               <GraphicLayout>
-                <HeatMapChart data={chartData}/>
+                {/* <HeatMapChart data={chartData}/> */}
+                <GradientMapChart data={chartData}/>
               </GraphicLayout>
             </SplitterPanel>
         </Splitter>
