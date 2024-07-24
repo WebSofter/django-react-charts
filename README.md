@@ -13,3 +13,8 @@ $ python manage.py runserver 0.0.0.0:8000
 $ npm i
 $ npm run start
 ```
+
+# 3. запуск через docker
+```sh
+docker compose --profile prod up -d
+```
