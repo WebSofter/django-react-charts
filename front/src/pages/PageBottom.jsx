@@ -32,11 +32,11 @@ const PageTop = ({ data }) => {
   }
   
   useEffect(() => {
-      //setInterval(function(){
+      setInterval(function(){
           fetchChart({num, filter, limit, success: resp => {
               setChartData(resp)
           }, fail: e => {}})
-      //}, interval)
+      }, 1000)
   }, [filter])
 
   return (
