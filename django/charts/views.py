@@ -17,9 +17,9 @@ def get_every_nth_element(lst, n):
     return lst[n-1::n]
 
 # Create your views here.
-def get_filtered_chart(serializer, filter):
+def get_filtered_chart(serializer, filter, using_nth=True):
     filter = float(filter)
-    lst = get_every_nth_element(serializer.data, NTH_ROWS)
+    lst = get_every_nth_element(serializer.data, NTH_ROWS) if using_nth else serializer.data
 
     if filter >=1.0:
         return lst
@@ -58,16 +58,22 @@ def list_charts(request, page):
 @api_view(['GET'])
 def download_chart(request, page):
     filter = request.GET.get("filter")
-    limit = int(request.GET.get("limit"))    
+    limit = int(request.GET.get("limit"))  
+    interval = request.GET.get("interval")
     response = HttpResponse(content_type='text/csv') 
     response['Content-Disposition'] = 'attachment; filename="book_catalog.csv"'
   
     writer = csv.writer(response) 
     writer.writerow(['timestamps', 'data_1ch', 'data_1ch', 'data_2ch', 'data_3ch', 'data_4ch', 'data_5ch', 'data_6ch', 'data_7ch', 'data_8ch']) 
-  
-    data = SignalsTop.objects.all()[:limit]
+    data = None
+    if interval!='null':
+        interval = json.loads(interval)
+        data = SignalsTop.objects.filter(timestamps__gte=interval['start'], timestamps__lte=interval['stop'])
+    else:
+        data = SignalsTop.objects.all()[:limit]
+
     serializer = SignalsBottomSerializer(data, many=True)
-    rows = get_filtered_chart(serializer, filter)
+    rows = get_filtered_chart(serializer, filter, False)
     for row in rows: 
         writer.writerow([row['timestamps'], row['data_1ch'], row['data_2ch'], row['data_3ch'], row['data_4ch'], row['data_5ch'], row['data_6ch'], row['data_7ch'], row['data_8ch']]) 
   

@@ -1,10 +1,9 @@
 import React, { useEffect, useRef } from "react";
 import * as echarts from "echarts";
-import type { EChartOption } from "echarts";
-import { IChartComponentProps } from "../../type/chart";
+import { IChartComponentProps, IChartData } from "../../type/chart";
 // import './styles.css'
 
-const HeatMapChart = ({ data, }: IChartComponentProps) => {
+const HeatMapChart = ({ data: data_, }: IChartComponentProps) => {
     /*
       {
         timestamps: "2024-05-07T10:13:30.611000Z",
@@ -18,14 +17,56 @@ const HeatMapChart = ({ data, }: IChartComponentProps) => {
         data_8ch: 10742.8,
       }
     */
+    interface IChartType {
+      name: string;
+      color: string;
+    }
+    const charts: IChartType[] = [
+        {
+            name: "data_1ch",
+            color: "#818181FF"
+        },
+        {
+            name: "data_2ch",
+            color: "#7C4A8FFF"
+        },
+        {
+            name: "data_3ch",
+            color: "#36599AFF"
+        },
+        {
+            name: "data_4ch",
+            color: "#2F725AFF"
+        },
+        {
+            name: "data_5ch",
+            color: "#DFB010FF"
+        },
+        {
+            name: "data_6ch",
+            color: "#FE5D30FF"
+        },
+        {
+            name: "data_7ch",
+            color: "#EC312EFF"
+        },
+        {
+            name: "data_8ch",
+            color: "#9F5233FF"
+        }
+    ]
+    // const maxCols = charts.map(chart => ({name: chart.name, value: Math.max(...data_.map(o => o[chart.name as keyof IChartData]))}))
+    // const maxAll = Math.max(...maxCols.map(o => o.value))
+    // const minCols = charts.map(chart => ({name: chart.name, value: Math.min(...data_.map(o => o[chart.name as keyof IChartData]))}))
+    // const minAll = Math.min(...minCols.map(o => o.value))
+    // console.log(maxCols, minCols)
+
     const range = (from: number, to: number, step: number) => [...Array(Math.floor((to - from) / step) + 1)].map((_, i) => from + i * step);
     // const hours = range(-200, 36000, 500);
-    const chartData = data.slice(0, 49);
-    
-    var app: any = {};
-    type EChartsOption = echarts.EChartsOption;
+    // const chartData = data_.slice(0, 49);
+    // var app: any = {};
+    // type EChartsOption = echarts.EChartsOption;
     const chartRef = useRef<HTMLDivElement>(null);
-
     useEffect(() => {
       if (chartRef.current) {
         initChart(chartRef.current);
@@ -41,9 +82,8 @@ const HeatMapChart = ({ data, }: IChartComponentProps) => {
 
         // let xData: number[] = [];
         // let yData: number[] = [];
-
-        let xData: number[] = [];
-        let yData: number[] = [];
+        let xData: string[] = data_.map(c => c.timestamps);
+        let yData: number[] = range(-500, 35000, 1);
 
         noise.seed(Math.random());
         function generateData(theta: number, min: number, max: number) {
@@ -52,11 +92,11 @@ const HeatMapChart = ({ data, }: IChartComponentProps) => {
             for (let j = 0; j <= 100; j++) {
               data.push([i, j, noise.perlin2(i / 40, j / 20) + 0.5]);
             }
-            xData.push(i);
+            // xData.push(i);
           }
-          for (let j = 0; j < 100; j++) {
-            yData.push(j);
-          }
+          // for (let j = 0; j < 100; j++) {
+          //   yData.push(j);
+          // }
           return data;
         }
         let data = generateData(2, -5, 5);

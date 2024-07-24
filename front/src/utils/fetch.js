@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { getFormatedTime } from "./formatedTime"
 
-export const downloadOnPage = ({num, filter, limit = 50, success = e => {}, fail = e => {}}) => axios({
-    url: `https://api.rehome.wsofter.com/api/charts/${num}/download?filter=${filter}&limit=${limit}`, //your url
+export const downloadOnPage = ({num, filter, limit = 50, interval = null, success = e => {}, fail = e => {}}) => axios({
+    url: `https://api.rehome.wsofter.com/api/charts/${num}/download?filter=${filter}&limit=${limit}&interval=${encodeURIComponent(JSON.stringify(interval))}`, //your url
     method: 'GET',
     responseType: 'blob',
 }).then((response) => {

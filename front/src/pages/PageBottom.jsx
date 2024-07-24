@@ -20,9 +20,9 @@ const PageTop = ({ data }) => {
   const [inDownload, setInDownload] = useState(false);
   const onChangeFilter = value => setFilter(value)
 
-  const onDownload = (e, filter) => {
+  const onDownload = (e, filter, interval = null) => {
     setInDownload(true);
-    downloadOnPage({num, filter, limit, success: res => {
+    downloadOnPage({num, filter, limit, interval, success: res => {
       setInDownload(false)
       toast.current.show({severity:'success', summary: 'Success', detail: `Success downloaded`, life: 3000})
     }, fail: err => {
