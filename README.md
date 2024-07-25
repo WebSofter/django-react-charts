@@ -16,5 +16,6 @@ $ npm run start
 
 # 3. запуск через docker
 ```sh
+sudo chmod 644 docker/mariadb/my.cnf
 docker compose --profile prod up -d
 ```

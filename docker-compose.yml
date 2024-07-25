@@ -1,26 +1,27 @@
 version: '3.8'
 # Поднимаем пять сервисов: django, node, rabbitMQ, postgres, nginx
 services:
-  django:
+  back:
     #говорим что build будет из dockerfile который располагается ./django/django_project/
-    build: ./django/
+    build: ./back/
     # имя контейнера
-    container_name: app_django
-    profiles: [prod]
+    container_name: app_back
+    profiles: [prod, dev]
     # перезапускать контейнер при завершении выполнения работы или при аварийном завершении
     restart: always
     # проброс портов внутрь контейнера, 8000 порт на хост машине будет проброшен внутрь контейнера на такой же 8000 порт
     expose:
       - 8000
+    ports:
+      - 8000:8000
     # команда при старте контейнера
     command: >
       sh -c "nohup python worker.py & nohup python manage.py my_command & python manage.py runserver 0.0.0.0:8000"
     depends_on:
       - db
-      - rmq
     # Для статики мы подключаем два volume (чтобы при перезапуске наши данные не пропадали)), создадим их ниже.
     volumes:
-      - ./django/:/usr/src/app/
+      - ./back/:/usr/src/app/
       - django_static_volume:/usr/src/app/static
       - django_media_volume:/usr/src/app/media
     # подключаем к сети app-network (в целом не обязательно, но до кучи чтоб было)
@@ -31,9 +32,12 @@ services:
 
   node:
     # Аналогично, build из ./react/dockerfile
-    build: ./react
+    build: 
+      context: ./front
+      args:
+        - REACT_APP_API_URL=${REACT_APP_API_URL}
     # имя контейнера
-    container_name: app_react
+    container_name: app_front
     profiles: [prod]
     # рестарт
     restart: always
@@ -42,39 +46,19 @@ services:
       - 3000:3000
     # команда при запуске
     volumes:
-      - ./react/public/:/usr/src/app/public/
-      - ./react/src/:/usr/src/app/src/
-    command: npm start
+      - ./front/public/:/usr/src/app/public/
+      - ./front/src/:/usr/src/app/src/
+    command: npm run start:docker
     # Зависимость. нет смысла ноде, если некому отдать ей данные. поэтому сначала стартуем сервис django, а за ней node
     depends_on:
-      - django
+      - back
     # Сеть та же, все контейнеры должны крутиться в однйо сети чтобы видеть друг друга.
     networks:
-      - app-network
-
-  rmq:
-    # на этот раз мы не билдим контейнер а используем полностью готовый из репозитория
-    image: rabbitmq:3.10-management
-    restart: always
-    container_name: app_rmq
-    profiles: [prod]
-    networks:
-      - app-network
-    # Переменные окружения для настройки. 
-    environment:
-      - RABBITMQ_DEFAULT_USER=admin
-      - RABBITMQ_DEFAULT_PASS=admin
-    # volume для хранения данных rmq, можно и без него, но тогда при перезапуске каждый раз будет создаваться новый и они будут потихоньку накапливаться
-    volumes:
-      - rabbitmq_data_volume:/var/lib/rabbitmq/
-    # проброс портов, 15672 для менеджмента, 5671-5672 для работы
-    ports:
-      - 1234:15672
-      - 5671-5672:5671-5672    
+      - app-network 
   
   # Сервис нашей БД
   db:
-    image: mariadb
+    image: mariadb:10.8
     restart: always
     container_name: app_db
     profiles: [prod, dev]
@@ -83,9 +67,16 @@ services:
       MYSQL_DATABASE: ${DB_NAME}
       MYSQL_USER: ${DB_USER}
       MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_HOST: db
+      # MYSQL_ROOT_HOST: "%"
     volumes:
-      - db_volume:/var/lib/mysql
-    hostname: localhost
+    #  - db_volume:/var/lib/mysql
+      - ./docker/mariadb/data:/var/lib/mysql
+      - ./docker/mariadb/my.cnf:/etc/mysql/my.cnf
+      - ./docker/mariadb/init.sql:/docker-entrypoint-initdb.d/init.sql
+    #  - ./mariadb/my.cnf:/etc/mysql/my.cnf
+    #  - ./mariadb/init.sql:/docker-entrypoint-initdb.d/init.sql
+    # hostname: localhost
     ports:
       - ${DB_PORT}:3306
     # Сеть
@@ -93,32 +84,32 @@ services:
       - app-network
 
   phpmyadmin:
+    image: phpmyadmin
     container_name: app_pma
     profiles: [prod, dev]
     depends_on:
       - db
-    image: phpmyadmin
     restart: always
     ports:
       - "8090:80"
-    environment:
-      - PMA_HOST=db
+    # environment:
+    #   - PMA_HOST=0.0.0.0
     networks:
       - app-network
 
-  nginx:
-    build: ./nginx
-    container_name: app_nginx
-    profiles: [prod]
-    networks:
-      - app-network
-    ports:
-      - 1337:80
-    depends_on:
-      - django
-    volumes:
-      - django_static_volume:/home/src/app/static
-      - django_media_volume:/home/src/app/media 
+  # nginx:
+  #   build: ./nginx
+  #   container_name: app_nginx
+  #   profiles: [prod]
+  #   networks:
+  #     - app-network
+  #   ports:
+  #     - 8080:80
+  #   depends_on:
+  #     - back
+  #   volumes:
+  #     - django_static_volume:/home/src/app/static
+  #     - django_media_volume:/home/src/app/media 
 
 # создаём два volume для статики
 volumes:
@@ -130,3 +121,4 @@ volumes:
 # создаём сеть.
 networks:
   app-network:
+  #  driver: bridge

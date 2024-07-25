@@ -15,6 +15,7 @@ const PageTop = ({ data }) => {
   const limit = 50
   //
   const [chartData, setChartData] = useState([]);
+  const intervalIDRef = useRef(null);
   //
   const [filter, setFilter] = useState(1.0);
   const [inDownload, setInDownload] = useState(false);
@@ -32,11 +33,14 @@ const PageTop = ({ data }) => {
   }
   
   useEffect(() => {
-      setInterval(function(){
-          fetchChart({num, filter, limit, success: resp => {
-              setChartData(resp)
-          }, fail: e => {}})
-      }, 1000)
+    intervalIDRef.current = setInterval(function(){
+        fetchChart({num, filter, limit, success: resp => {
+            setChartData(resp)
+        }, fail: e => {}})
+    }, 1000)
+    return(() => {
+      clearInterval(intervalIDRef.current);
+    })
   }, [filter])
 
   return (

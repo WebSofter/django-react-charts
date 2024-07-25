@@ -65,7 +65,6 @@ const GradientMapChart = ({ data, }: IChartComponentProps) => {
       })
     }
   })
-  console.log({circles})
   const getGradByData = (points: number[]) => {
     // const min = Math.min(...points)
     const max = Math.max(...points)

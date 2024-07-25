@@ -47,7 +47,6 @@ const HeatMapChart = ({data, }: IChartComponentProps) => {
             .map(function (item) {
                 return [item[1], item[0], item[2]];
             });
-        console.log({data})
         option = {
           tooltip: {
             position: 'top'

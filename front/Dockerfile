@@ -1,0 +1,17 @@
+# так же берём готовый контейнер с node на основе alpine
+FROM node:18-alpine as build
+
+ARG REACT_APP_API_URL
+ENV REACT_APP_API_URL=${REACT_APP_API_URL}
+# Задаем рабочий каталог
+WORKDIR /usr/src/app
+# Копируем туда наши json файлы
+ADD *.json ./
+# Устанавливаем все пакеты и зависимости указанные в json
+RUN npm install
+# Копируем каталоги public и src. 
+# можно воспользоваться командой COPY . . но если вы синхронизировали node_modules, то будете ждать пока залётся 
+# этот каталог целиком. да и потом могут возникнуть проблемы.
+ADD ./public ./public
+ADD ./src ./src
+COPY tailwind.config.js tsconfig.json postcss.config.js ./

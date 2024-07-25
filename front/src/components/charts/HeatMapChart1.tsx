@@ -100,7 +100,7 @@ const HeatMapChart = ({ data: data_, }: IChartComponentProps) => {
           return data;
         }
         let data = generateData(2, -5, 5);
-        console.log({data: data.slice(230, 290), xData, yData})
+        // console.log({data: data.slice(230, 290), xData, yData})
         option = {
           tooltip: {},
           xAxis: {

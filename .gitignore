@@ -2,4 +2,6 @@
 /*/node_modules
 /django/env/
 /*/.venv
+/*/venv
+/*/mariadb/data
 .idea

@@ -10,6 +10,7 @@ import axios from 'axios';
 import Keyboard from "react-simple-keyboard";
 import "react-simple-keyboard/build/css/index.css";
 import { defaultLayout, randomizeKeysDefault, randomizeKeysShift, shiftLayout, isLetter } from "../utils/keyboard"
+import conf from "../utils/conf"
 
 const PageSettings = (props) => {
   const toast = useRef(null);
@@ -44,8 +45,8 @@ const onSave = async () => {
     console.log(_fields[i].par_value, '==', field.par_value)
   return _fields[i].par_value !== field.par_value
   })
-  console.log({body})
-  axios.post('https://api.rehome.wsofter.com/api/settings/', {
+
+  axios.post(`${conf.apiUrl}/api/settings/`, {
     params: body,
   })
   .then(function (response) {
@@ -99,7 +100,7 @@ const hideKeyboard = () => setVisible(false)
 
 /********Keyboard */
   useEffect(() => {
-    fetch("https://api.rehome.wsofter.com/api/settings/")
+    fetch(`${conf.apiUrl}/api/settings/`)
       .then(res => res.json())
       .then(
         (result) => {

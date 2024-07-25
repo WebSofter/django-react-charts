@@ -1,8 +1,9 @@
 import axios from 'axios';
 import { getFormatedTime } from "./formatedTime"
+import conf from "../utils/conf"
 
 export const downloadOnPage = ({num, filter, limit = 50, interval = null, success = e => {}, fail = e => {}}) => axios({
-    url: `https://api.rehome.wsofter.com/api/charts/${num}/download?filter=${filter}&limit=${limit}&interval=${encodeURIComponent(JSON.stringify(interval))}`, //your url
+    url: `${conf.apiUrl}/api/charts/${num}/download?filter=${filter}&limit=${limit}&interval=${encodeURIComponent(JSON.stringify(interval))}`, //your url
     method: 'GET',
     responseType: 'blob',
 }).then((response) => {
@@ -19,7 +20,7 @@ export const downloadOnPage = ({num, filter, limit = 50, interval = null, succes
 })
 
 export const fetchChart = ({num, filter, limit, success = e => {}, fail = e => {}}) => {
-    fetch(`https://api.rehome.wsofter.com/api/charts/${num}?filter=${filter}&limit=${limit}`)
+    fetch(`${conf.apiUrl}/api/charts/${num}?filter=${filter}&limit=${limit}`)
     .then(res => res.json())
     .then(
       (result) => success(result),
