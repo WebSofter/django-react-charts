@@ -76,8 +76,8 @@ services:
     #  - ./mariadb/my.cnf:/etc/mysql/my.cnf
     #  - ./mariadb/init.sql:/docker-entrypoint-initdb.d/init.sql
     # hostname: localhost
-    # ports:
-    #   - ${DB_PORT}:3306
+    ports:
+      - ${DB_PORT_EXT}:3306
     # Сеть
     networks:
       - app-network
