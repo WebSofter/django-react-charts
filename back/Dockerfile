@@ -23,6 +23,7 @@ RUN apt-get update \
     && apt-get install -y build-essential \
     && apt-get install -y libcurl4-openssl-dev \
     && apt-get install -y libssl-dev \
+    && apt-get install -y netcat \
     && pip install --upgrade pip
 
 # обновим pip

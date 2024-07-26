@@ -1,13 +1,13 @@
 #!/bin/sh
 
-if [ "$DATABASE" = "postgres" ]
+if [ "$DB_ENGINE" = "django.db.backends.mysql" ]
 then
     # если база еще не запущена
     echo "Рано..."
 
     # Проверяем доступность хоста и порта
-    while ! nc -z $POSTGRES_HOST $POSTGRES_PORT; do
-      sleep 0.1
+    until nc -z -v -w30 $DB_HOST $DB_PORT;do
+      sleep 10;
     done
 
     echo "Пора!"
