@@ -80,10 +80,10 @@ const HeatMapChart = ({ data: data_, }: IChartComponentProps) => {
 
         let noise = getNoiseHelper();
 
-        // let xData: number[] = [];
-        // let yData: number[] = [];
-        let xData: string[] = data_.map(c => c.timestamps);
-        let yData: number[] = range(-500, 35000, 1);
+        let xData: number[] = [];
+        let yData: number[] = [];
+        // let xData: string[] = data_.map(c => c.timestamps);
+        // let yData: number[] = range(-500, 35000, 1);
 
         noise.seed(Math.random());
         function generateData(theta: number, min: number, max: number) {
@@ -92,11 +92,11 @@ const HeatMapChart = ({ data: data_, }: IChartComponentProps) => {
             for (let j = 0; j <= 100; j++) {
               data.push([i, j, noise.perlin2(i / 40, j / 20) + 0.5]);
             }
-            // xData.push(i);
+            xData.push(i);
           }
-          // for (let j = 0; j < 100; j++) {
-          //   yData.push(j);
-          // }
+          for (let j = 0; j < 100; j++) {
+            yData.push(j);
+          }
           return data;
         }
         let data = generateData(2, -5, 5);

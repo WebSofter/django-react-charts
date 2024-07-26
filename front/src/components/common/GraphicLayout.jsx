@@ -6,7 +6,7 @@ import { Button } from 'primereact/button';
 import { InputText } from "primereact/inputtext";
 import moment from 'moment';
 
-const GraphicLayout = ({menu = false, defaultFilter = 1.0, onChangeFilter = ()=>{}, onDownload = ()=>{}, inDownload = false, children }) => {
+const GraphicLayout = ({size = {}, menu = false, defaultFilter = 1.0, onChangeFilter = ()=>{}, onDownload = ()=>{}, inDownload = false, children }) => {
   const filters = [
     { label: `Direct`, value: 1.0 },
     { label: `Ratio 0.1`, value: 0.1 }
@@ -76,7 +76,7 @@ const start = (
 );
 
   return (
-    <ScrollPanel style={{ width: '750px', minHeight: '550px' }}>
+    <ScrollPanel style={{ width: size.width, minHeight: '550px' }}>
       {menu && <Menubar model={[]} start={start} end={end} className='mb-5'/>}
       {children}
     </ScrollPanel>

@@ -48,13 +48,13 @@ const PageTop = ({ data }) => {
       <Toast ref={toast}/>
       <PageLayout title={`Страница ${num}`}>
         <Splitter style={{ width: '100%', height: '100%' }}>
-            <SplitterPanel className="flex align-items-center justify-content-center p-8">
-              <GraphicLayout menu={true} onChangeFilter={onChangeFilter} onDownload={onDownload} inDownload={inDownload}>
+            <SplitterPanel className="flex align-items-center justify-content-center p-2">
+              <GraphicLayout size={{width:'700px'}} menu={true} onChangeFilter={onChangeFilter} onDownload={onDownload} inDownload={inDownload}>
                 <StackLineChart data={chartData}/>
               </GraphicLayout>
             </SplitterPanel>
-            <SplitterPanel className="flex align-items-center justify-content-center p-8">
-              <GraphicLayout>
+            <SplitterPanel className="flex align-items-center justify-content-center p-2">
+              <GraphicLayout size={{width:'450px'}}>
                 {/* <HeatMapChart data={chartData}/> */}
                 <GradientMapChart data={chartData}/>
               </GraphicLayout>
