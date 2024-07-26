@@ -6,7 +6,6 @@ services:
     build: ./back/
     # имя контейнера
     container_name: app_back
-    profiles: [prod, dev]
     # перезапускать контейнер при завершении выполнения работы или при аварийном завершении
     restart: always
     # проброс портов внутрь контейнера, 8000 порт на хост машине будет проброшен внутрь контейнера на такой же 8000 порт
@@ -40,7 +39,6 @@ services:
         - REACT_APP_API_URL=${REACT_APP_API_URL}
     # имя контейнера
     container_name: app_front
-    profiles: [prod]
     # рестарт
     restart: always
     # порты
@@ -63,7 +61,6 @@ services:
     image: mariadb:10.8
     restart: always
     container_name: app_db
-    profiles: [prod, dev]
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
       MYSQL_DATABASE: ${DB_NAME}
@@ -88,7 +85,6 @@ services:
   phpmyadmin:
     image: phpmyadmin
     container_name: app_pma
-    profiles: [prod, dev]
     depends_on:
       - db
     restart: always
