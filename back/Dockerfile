@@ -38,4 +38,4 @@ RUN pip install -r requirements.txt
 COPY . .
 
 # Сделаем первую миграцию.
-ENTRYPOINT ["/usr/src/app/entrypoint.sh"]
+ENTRYPOINT ["chmod", "+x", "/usr/src/app/entrypoint.sh"]
