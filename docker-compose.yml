@@ -3,7 +3,9 @@ version: '3.8'
 services:
   back:
     #говорим что build будет из dockerfile который располагается ./django/django_project/
-    build: ./back/
+    build:
+      context: ./back
+      dockerfile: Dockerfile
     # имя контейнера
     container_name: app_back
     # перезапускать контейнер при завершении выполнения работы или при аварийном завершении
@@ -15,7 +17,7 @@ services:
       - 8000:8000
     # команда при старте контейнера
     command: >
-      sh -c "python manage.py runserver 0.0.0.0:8000"
+     sh -c "python manage.py runserver 0.0.0.0:8000"
     # command: >
     #  sh -c "nohup python worker.py & nohup python manage.py my_command & python manage.py runserver 0.0.0.0:8000"
     depends_on:

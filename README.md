@@ -30,7 +30,9 @@ docker stop service_name
 docker start service_name
 docker rm [--force] service_name
 docker rm -vf $(docker ps -aq)
-# Images
+```
+# 2.1.2 команды для образов
+```sh
 docker images
 docker compose up image_name -d
 docker rmi [--force] image_name

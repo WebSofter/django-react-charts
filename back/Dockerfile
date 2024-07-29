@@ -23,8 +23,7 @@ RUN apt-get update \
     && apt-get install -y build-essential \
     && apt-get install -y libcurl4-openssl-dev \
     && apt-get install -y libssl-dev \
-    && apt-get install -y netcat \
-    && pip install --upgrade pip
+    && apt-get install -y netcat
 
 # обновим pip
 RUN pip install --upgrade pip
@@ -35,7 +34,6 @@ COPY ./requirements.txt .
 RUN pip install -r requirements.txt
 
 # копируем всё что осталось.
-COPY . .
-
+COPY . /usr/src/app
 # Сделаем первую миграцию.
-ENTRYPOINT ["chmod", "+x", "/usr/src/app/entrypoint.sh"]
+ENTRYPOINT ["/usr/src/app/entrypoint.sh"]
