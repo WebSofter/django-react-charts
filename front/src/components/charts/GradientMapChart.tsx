@@ -48,8 +48,9 @@ const GradientMapChart = ({ data, }: IChartComponentProps) => {
     '#e4223dff',
     '#fb182bff',
   ] //.reverse()
-  const getColorByPercent = (percent: number) => {
+  const getColorByPercent = (percent: number, label: string = '') => {
     const index = Math.floor(percent / 10)
+    // console.log(`circle${label}:`, {index, percent})
     return colors[(index === 10 ? 9 :  index)]
 }
   const circles: IGradientChartData[]  = [ 
@@ -65,10 +66,10 @@ const GradientMapChart = ({ data, }: IChartComponentProps) => {
       })
     }
   })
-  const getGradByData = (points: number[]) => {
+  const getGradByData = (points: number[], label: string = '') => {
     // const min = Math.min(...points)
-    const max = Math.max(...points)
-    return points.map((point, i) => getColorByPercent((point / max * 100))).filter(c => c).join(',')
+    const max = Math.max(...points.map((point) => Math.abs(point)))
+    return points.map((point, i) => getColorByPercent((point / max * 100), label)).filter(c => c).join(',')
   }
   const pies = circles.map((c, i) => {
     if(c.center) {
@@ -82,7 +83,7 @@ const GradientMapChart = ({ data, }: IChartComponentProps) => {
     //
     // console.log(c.label, getGradByData(c.data))
     return <div className="circle-wrap" style={style}>
-      <div className="circle-chart" style={{backgroundImage: `radial-gradient(${getGradByData(c.data)})`}}>{c.label}</div>
+      <div className="circle-chart" style={{backgroundImage: `radial-gradient(${getGradByData(c.data, c.label)})`}}>{c.label}</div>
     </div>
   })
   //
