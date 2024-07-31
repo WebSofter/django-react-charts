@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
+import { IChartComponentProps, IChartData } from "../../type/chart";
 import './styles.css'
 // import chartData from './data.json'
 import {
@@ -48,7 +49,13 @@ const charts = [
     }
 ]
 
-export default function StackLineChart({ data = []}) {
+export default function StackLineChart({ data = [], }: IChartComponentProps) {
+    const [data_, setData_] = React.useState<IChartData[]>(data);
+    useEffect(() => {
+        setData_(data)
+    }, [data]);
+
+    //
     return (
         <div className="flex flex-col">
             {charts.map((chart, i) =><div className={`flex flex-row chart-item ${(i === charts.length - 1) ? 'last-chart': ''}`}>
@@ -62,7 +69,7 @@ export default function StackLineChart({ data = []}) {
                         key={`chart-${i}`}
                         width={1500}
                         height={100}
-                        data={data}
+                        data={data_}
                         syncId="anyId"
                         margin={{
                             top: 0,

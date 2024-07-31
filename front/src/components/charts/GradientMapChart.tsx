@@ -1,22 +1,14 @@
 import React, { useEffect, useRef } from "react";
 import './styles.css'
-import { IChartComponentProps, IGradientChartData } from "../../type/chart";
-/*
-[{
-    "timestamps": "2024-05-07T10:13:29.930000Z",
-    "data_1ch": 332.86,
-    "data_2ch": 17799.4,
-    "data_3ch": 12481.9,
-    "data_4ch": 34559.2,
-    "data_5ch": 8666.49,
-    "data_6ch": 13773.4,
-    "data_7ch": 21895.4,
-    "data_8ch": 10761.3
-},
-...
-}
-*/
-const GradientMapChart = ({ data, }: IChartComponentProps) => {
+import { IChartComponentProps, IChartData, IGradientChartData } from "../../type/chart";
+
+const GradientMapChart = ({ data = [], }: IChartComponentProps) => {
+
+  const [data_, setData_] = React.useState<IChartData[]>(data);
+  useEffect(() => {
+      setData_(data)
+  }, [data]);
+
   const chartRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (chartRef.current) {
@@ -59,7 +51,7 @@ const GradientMapChart = ({ data, }: IChartComponentProps) => {
     { label: '1', name: 'data_1ch', center: false, data: [], }, { label: '2', name: 'data_2ch', center: false, data: [], },
     { label: '5', name: 'data_5ch', center: true, data: [], }, { label: '4', name: 'data_4ch', center: true, data: [], } ]
   
-  data.slice(0, 10).forEach((dataRow, i)=> {
+  data_.slice(0, 10).forEach((dataRow, i)=> {
     for (const [k, v] of Object.entries(dataRow)) {
       circles.forEach((circle, j) => {
         if(circle.name === k) circle.data.push(v)
