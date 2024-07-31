@@ -68,7 +68,7 @@ const GradientMapChart = ({ data, }: IChartComponentProps) => {
   const getGradByData = (points: number[]) => {
     // const min = Math.min(...points)
     const max = Math.max(...points)
-    return points.map((point, i) => getColorByPercent((point / max * 100))).join(',')
+    return points.map((point, i) => getColorByPercent((point / max * 100))).filter(c => c).join(',')
   }
   const pies = circles.map((c, i) => {
     if(c.center) {
@@ -80,6 +80,7 @@ const GradientMapChart = ({ data, }: IChartComponentProps) => {
     var x = Math.cos((div * i) * (Math.PI / 180)) * radius;
     const style : React.CSSProperties = {position: 'absolute', top: (y + totalOffset).toString() + "px", left: (x + totalOffset).toString() + "px"}
     //
+    // console.log(c.label, getGradByData(c.data))
     return <div className="circle-wrap" style={style}>
       <div className="circle-chart" style={{backgroundImage: `radial-gradient(${getGradByData(c.data)})`}}>{c.label}</div>
     </div>

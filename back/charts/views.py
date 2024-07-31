@@ -41,13 +41,13 @@ def list_charts(request, page):
         filter = request.GET.get("filter")
         limit = int(request.GET.get("limit")) * NTH_ROWS
         if int(page) == 1:
-            data = SignalsTop.objects.all()[:limit]
+            data = SignalsTop.objects.all().order_by('timestamps__second')[:limit]
             # data = SignalsTop.objects.filter(Q(timestamps__lte='1'))
             serializer = SignalsTopSerializer(data, context={'request': request}, many=True)
             result = get_filtered_chart(serializer, filter)
             return Response(result)
         elif int(page) == 2:
-            data = SignalsBottom.objects.all()[:limit]
+            data = SignalsBottom.objects.all().order_by('timestamps__second')[:limit]
             #data = SignalsBottom.objects.filter(Q(timestamps__lte='1'))
             serializer = SignalsBottomSerializer(data, context={'request': request}, many=True)
             result = get_filtered_chart(serializer, filter)
