@@ -7,13 +7,14 @@ import { downloadOnPage } from "../utils/fetch"
 import { Toast } from 'primereact/toast';
 import { fetchChart } from "../utils/fetch"
 import HeatMapChart from "../components/charts/HeatMapChart1";
+import conf from "../utils/conf";
 // import HeatMapChart from "../components/charts/HeatMapChart";
 // import HeatMapJS from "../components/charts/HeatMapJS";
 
 const PageTop = ({ data }) => {
   const toast = useRef(null);
   const num = 1
-  const limit = 50
+  const limit = conf.limitData
   //
   const [chartData, setChartData] = useState([]);
   const intervalIDRef = useRef(null);
@@ -38,7 +39,7 @@ const PageTop = ({ data }) => {
         fetchChart({num, filter, limit, success: resp => {
             setChartData(resp)
         }, fail: e => {}})
-    }, 1000)
+    }, conf.loadSeconds)
     return(() => {
       clearInterval(intervalIDRef.current);
     })

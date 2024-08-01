@@ -5,11 +5,11 @@ import { Dropdown } from 'primereact/dropdown';
 import { Button } from 'primereact/button';
 import { InputText } from "primereact/inputtext";
 import moment from 'moment';
-
+import conf from '../../utils/conf'
 const GraphicLayout = ({size = {}, menu = false, defaultFilter = 1.0, onChangeFilter = ()=>{}, onDownload = ()=>{}, inDownload = false, children }) => {
   const filters = [
     { label: `Direct`, value: 1.0 },
-    { label: `Ratio 0.1`, value: 0.1 }
+    { label: `Ratio 0.1`, value: conf.filterCoefficient }
   ]
   const Status = {
     Stop: 'Stop',

@@ -8,11 +8,12 @@ import StackLineChart from "../components/charts/StackLineChart";
 import { downloadOnPage } from "../utils/fetch"
 import { Toast } from 'primereact/toast';
 import { fetchChart } from "../utils/fetch"
+import conf from "../utils/conf";
 
 const PageTop = ({ data }) => {
   const toast = useRef(null);
   const num = 2
-  const limit = 50
+  const limit = conf.limitData
   //
   const [chartData, setChartData] = useState([]);
   const intervalIDRef = useRef(null);
@@ -37,7 +38,7 @@ const PageTop = ({ data }) => {
         fetchChart({num, filter, limit, success: resp => {
             setChartData(resp)
         }, fail: e => {}})
-    }, 1000)
+    }, conf.loadSeconds)
     return(() => {
       clearInterval(intervalIDRef.current);
     })
