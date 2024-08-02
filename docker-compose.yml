@@ -93,7 +93,7 @@ services:
   nginx:
     build: 
       context: ./
-      dockerfile: docker/nginx/Dockerfile
+      dockerfile: docker/nginx/Dockerfile.static
     container_name: app_nginx
     networks:
       - app-network
