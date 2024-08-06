@@ -105,6 +105,7 @@ services:
       - django_static_volume:/home/src/app/static
       - django_media_volume:/home/src/app/media
       - ./docker/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./front/build:/home/src/app/build
 
 # создаём два volume для статики
 volumes:
