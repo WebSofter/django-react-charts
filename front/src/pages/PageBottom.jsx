@@ -9,6 +9,7 @@ import { downloadOnPage } from "../utils/fetch"
 import { Toast } from 'primereact/toast';
 import { fetchChart } from "../utils/fetch"
 import conf from "../utils/conf";
+import {filterByY} from "../utils/filter"
 
 const PageTop = ({ data }) => {
   const toast = useRef(null);
@@ -36,7 +37,7 @@ const PageTop = ({ data }) => {
   useEffect(() => {
     intervalIDRef.current = setInterval(function(){
         fetchChart({num, filter, limit, success: resp => {
-            setChartData(resp)
+          setChartData(filterByY(resp, conf.limitY))
         }, fail: e => {}})
     }, conf.loadSeconds)
     return(() => {

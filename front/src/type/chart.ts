@@ -23,3 +23,9 @@ export interface IGradientChartData {
     center: boolean; 
     data: number[]; //Array<IChartData>
   }
+
+export  interface ILimitY {
+    name: string;
+    min: number;
+    max: number;
+}

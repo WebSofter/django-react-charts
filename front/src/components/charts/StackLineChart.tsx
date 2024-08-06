@@ -1,5 +1,5 @@
-import React, { useRef, useEffect, useState } from 'react';
-import { IChartComponentProps, IChartData } from "../../type/chart";
+import React, { useEffect, } from 'react';
+import { IChartComponentProps, IChartData, } from "../../type/chart";
 import './styles.css'
 // import chartData from './data.json'
 import {
@@ -10,8 +10,6 @@ import {
     CartesianGrid,
     Tooltip,
     Brush,
-    AreaChart,
-    Area,
 } from "recharts";
 
 const charts = [

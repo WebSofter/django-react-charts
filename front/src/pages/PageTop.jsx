@@ -8,6 +8,7 @@ import { Toast } from 'primereact/toast';
 import { fetchChart } from "../utils/fetch"
 import HeatMapChart from "../components/charts/HeatMapChart1";
 import conf from "../utils/conf";
+import {filterByY} from "../utils/filter"
 // import HeatMapChart from "../components/charts/HeatMapChart";
 // import HeatMapJS from "../components/charts/HeatMapJS";
 
@@ -37,7 +38,7 @@ const PageTop = ({ data }) => {
   useEffect(() => {
     intervalIDRef.current = setInterval(function(){
         fetchChart({num, filter, limit, success: resp => {
-            setChartData(resp)
+            setChartData(filterByY(resp, conf.limitY))
         }, fail: e => {}})
     }, conf.loadSeconds)
     return(() => {
