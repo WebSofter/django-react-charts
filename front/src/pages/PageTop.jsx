@@ -38,7 +38,7 @@ const PageTop = ({ data }) => {
   useEffect(() => {
     intervalIDRef.current = setInterval(function(){
         fetchChart({num, filter, limit, success: resp => {
-            setChartData(filterByY(resp, conf.limitY))
+          setChartData((conf.limitY.length > 0 ? filterByY(resp, conf.limitY): resp))
         }, fail: e => {}})
     }, conf.loadSeconds)
     return(() => {
