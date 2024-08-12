@@ -38,3 +38,4 @@ docker compose up image_name -d
 docker rmi [--force] image_name
 docker rmi -f $(docker images -aq)
 ```
+![Screenshot_1](/front/public/screen.png)
