@@ -29,3 +29,46 @@ export  interface ILimitY {
     min: number;
     max: number;
 }
+
+export interface IBoundY {
+    data_1ch?: {
+        max?: number;
+        min?: number;
+        dataZoomType?: 'inside' | 'slider';
+    };
+    data_2ch?: {
+        max?: number;
+        min?: number;
+        dataZoomType?: 'inside' | 'slider';
+    };
+    data_3ch?: {
+        max?: number;
+        min?: number;
+        dataZoomType?: 'inside' | 'slider';
+    };
+    data_4ch?: {
+        max?: number;
+        min?: number;
+        dataZoomType?: 'inside' | 'slider';
+    };
+    data_5ch?: {
+        max?: number;
+        min?: number;
+        dataZoomType?: 'inside' | 'slider';
+    };
+    data_6ch?: {
+        max?: number;
+        min?: number;
+        dataZoomType?: 'inside' | 'slider';
+    };
+    data_7ch?: {
+        max?: number;
+        min?: number;
+        dataZoomType?: 'inside' | 'slider';
+    };
+    data_8ch?: {
+        max?: number;
+        min?: number;
+        dataZoomType?: 'inside' | 'slider';
+    };
+}

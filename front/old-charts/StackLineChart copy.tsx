@@ -63,28 +63,30 @@ export default function StackLineChart({ data = [], }: IChartComponentProps) {
                     </div>
                 </div>
                 <div className="flex align-items-center justify-content-center" key={`chart-wrap-${i}`}>
-                    <LineChart
-                        key={`chart-${i}`}
-                        width={1500}
-                        height={100}
-                        data={data_}
-                        syncId="anyId"
-                        margin={{
-                            top: 0,
-                            right: 0,
-                            left: 0,
-                            bottom: -10,
-                        }}
-                    >
-                        <CartesianGrid strokeDasharray="1 1" />
-                        <XAxis dataKey={'timestamps'}/>
-                        <YAxis />
-                        <Tooltip />
-                        <Line type="monotone" dataKey={chart.name} stroke={chart.color} fill={chart.color} />
-                        {i === charts.length - 1 && (
-                            <Brush />
-                        )}
-                    </LineChart>
+                    <div className={'side-limit-container'}>
+                        <LineChart
+                            key={`chart-${i}`}
+                            width={1500}
+                            height={110}
+                            data={data_}
+                            syncId="anyId"
+                            margin={{
+                                top: 0,
+                                right: 0,
+                                left: 0,
+                                bottom: -10,
+                            }}
+                        >
+                            <CartesianGrid strokeDasharray="1 1" />
+                            <XAxis dataKey={'timestamps'}/>
+                            <YAxis />
+                            <Tooltip />
+                            <Line type="monotone" dataKey={chart.name} stroke={chart.color} fill={chart.color} />
+                            {i === charts.length - 1 && (
+                                <Brush />
+                            )}
+                        </LineChart>
+                    </div>
                 </div>
             </div>)}
         </div>

@@ -2,7 +2,7 @@ import React, {useRef, useEffect, useState} from "react";
 import PageLayout from "../components/common/PageLayout";
 import { Splitter, SplitterPanel } from 'primereact/splitter';
 import GraphicLayout from "../components/common/GraphicLayout";
-import StackLineChart from "../components/charts/StackLineChart";
+import StackLineChart from "../components/charts/StackLineChart.v3";
 import { downloadOnPage } from "../utils/fetch"
 import { Toast } from 'primereact/toast';
 import { fetchChart } from "../utils/fetch"
@@ -34,7 +34,21 @@ const PageTop = ({ data }) => {
       setInDownload(false)
     }})
   }
-  
+  /*
+  useEffect(() => {
+    fetchChart({num, filter, limit, success: resp => {
+      setChartData((conf.limitY.length > 0 ? filterByY(resp, conf.limitY): resp))
+    }, fail: e => {}})
+    intervalIDRef.current = setInterval(function(){
+        // fetchChart({num, filter, limit, success: resp => {
+        //   setChartData((conf.limitY.length > 0 ? filterByY(resp, conf.limitY): resp))
+        // }, fail: e => {}})
+    }, conf.loadSeconds)
+    return(() => {
+      clearInterval(intervalIDRef.current);
+    })
+  }, [filter])
+  */
   useEffect(() => {
     intervalIDRef.current = setInterval(function(){
         fetchChart({num, filter, limit, success: resp => {

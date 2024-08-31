@@ -11,7 +11,7 @@ from django.http import HttpResponse
 from django.db.models import Q
 import csv
 
-NTH_ROWS = 100
+NTH_ROWS = 10
 
 def get_every_nth_element(lst, n):
     return lst[n-1::n]
@@ -66,33 +66,16 @@ def download_chart(request, page):
     writer = csv.writer(response) 
     writer.writerow(['timestamps', 'data_1ch', 'data_1ch', 'data_2ch', 'data_3ch', 'data_4ch', 'data_5ch', 'data_6ch', 'data_7ch', 'data_8ch']) 
     data = None
-    
-    if int(page) == 1:
-        if interval!='null':
-            interval = json.loads(interval)
-            data = SignalsTop.objects.filter(timestamps__gte=interval['start'], timestamps__lte=interval['stop'])
-        else:
-            data = SignalsTop.objects.all()[:limit]
+    if interval!='null':
+        interval = json.loads(interval)
+        data = SignalsTop.objects.filter(timestamps__gte=interval['start'], timestamps__lte=interval['stop'])
+    else:
+        data = SignalsTop.objects.all()[:limit]
 
-        serializer = SignalsTopSerializer(data, many=True)
-        rows = get_filtered_chart(serializer, filter, False)
-        for row in rows: 
-            writer.writerow([row['timestamps'], row['data_1ch'], row['data_2ch'], row['data_3ch'], row['data_4ch'], row['data_5ch'], row['data_6ch'], row['data_7ch'], row['data_8ch']]) 
-
-        return response
-    elif int(page) == 2:
-        if interval!='null':
-            interval = json.loads(interval)
-            data = SignalsBottom.objects.filter(timestamps__gte=interval['start'], timestamps__lte=interval['stop'])
-        else:
-            data = SignalsBottom.objects.all()[:limit]
-
-        serializer = SignalsBottomSerializer(data, many=True)
-        rows = get_filtered_chart(serializer, filter, False)
-        for row in rows: 
-            writer.writerow([row['timestamps'], row['data_1ch'], row['data_2ch'], row['data_3ch'], row['data_4ch'], row['data_5ch'], row['data_6ch'], row['data_7ch'], row['data_8ch']]) 
-
-        return response
+    serializer = SignalsBottomSerializer(data, many=True)
+    rows = get_filtered_chart(serializer, filter, False)
+    for row in rows: 
+        writer.writerow([row['timestamps'], row['data_1ch'], row['data_2ch'], row['data_3ch'], row['data_4ch'], row['data_5ch'], row['data_6ch'], row['data_7ch'], row['data_8ch']]) 
   
     return response 
 
