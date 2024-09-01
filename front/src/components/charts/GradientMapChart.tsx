@@ -1,12 +1,21 @@
 import React, { useEffect, useRef } from "react";
 import './styles.css'
 import { IChartComponentProps, IChartData, IGradientChartData } from "../../type/chart";
+import conf from '../../utils/conf';
+import { filterByY } from "../../utils/filter";
 
 const GradientMapChart = ({ data = [], }: IChartComponentProps) => {
 
-  const [data_, setData_] = React.useState<IChartData[]>(data);
+  const filter = []
+  for (const [key, value] of Object.entries(conf.boundY)) {
+    filter.push({ name: key, min: value.min, max: value.max})
+  }
+  const d_ = filterByY(data, filter)
+  
+
+  const [data_, setData_] = React.useState<IChartData[]>(d_);
   useEffect(() => {
-      setData_(data)
+    setData_(d_)
   }, [data]);
 
   const chartRef = useRef<HTMLDivElement>(null);
@@ -42,7 +51,6 @@ const GradientMapChart = ({ data = [], }: IChartComponentProps) => {
   ] //.reverse()
   const getColorByPercent = (percent: number, label: string = '') => {
     const index = Math.floor(percent / 10)
-    // console.log(`circle${label}:`, {index, percent})
     return colors[(index === 10 ? 9 :  index)]
 }
   const circles: IGradientChartData[]  = [ 
@@ -71,10 +79,11 @@ const GradientMapChart = ({ data = [], }: IChartComponentProps) => {
     //
     var y = Math.sin((div * i) * (Math.PI / 180)) * radius;
     var x = Math.cos((div * i) * (Math.PI / 180)) * radius;
-    const style : React.CSSProperties = {position: 'absolute', top: (y + totalOffset).toString() + "px", left: (x + totalOffset).toString() + "px"}
+    const style : React.CSSProperties = {position: 'absolute', top: ((y + totalOffset).toFixed(2)) + "px", left: ((x + totalOffset).toFixed(2)) + "px"}
+    // console.log(style)
     //
     // console.log(c.label, getGradByData(c.data))
-    return <div className="circle-wrap" style={style}>
+    return <div className="circle-wrap" style={style} key={(c.label + i)}>
       <div className="circle-chart" style={{backgroundImage: `radial-gradient(${getGradByData(c.data, c.label)})`}}>{c.label}</div>
     </div>
   })

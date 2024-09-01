@@ -2,7 +2,6 @@ import React, {useRef, useEffect, useState} from "react";
 import PageLayout from "../components/common/PageLayout";
 import { Splitter, SplitterPanel } from 'primereact/splitter';
 import GraphicLayout from "../components/common/GraphicLayout";
-import HeatMapChart from "../components/charts/HeatMapChart1";
 import GradientMapChart from "../components/charts/GradientMapChart";
 import StackLineChart from "../components/charts/StackLineChart.v3";
 import { downloadOnPage } from "../utils/fetch"
@@ -57,7 +56,6 @@ const PageTop = ({ data }) => {
             </SplitterPanel>
             <SplitterPanel className="flex align-items-center justify-content-center p-2">
               <GraphicLayout size={{width:'450px'}}>
-                {/* <HeatMapChart data={chartData}/> */}
                 <GradientMapChart data={chartData}/>
               </GraphicLayout>
             </SplitterPanel>
